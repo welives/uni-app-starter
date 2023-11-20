@@ -1,5 +1,8 @@
 import { defineConfig, loadEnv } from 'vite'
 import uni from '@dcloudio/vite-plugin-uni'
+import { UnifiedViteWeappTailwindcssPlugin as uvwt } from 'weapp-tailwindcss/vite'
+import { WeappTailwindcssDisabled } from './platform'
+import { plugins as postcssPlugins } from './postcss.config'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -9,7 +12,13 @@ export default defineConfig(({ mode }) => {
     server: {
       port: isNaN(PORT) ? undefined : PORT,
     },
-    plugins: [uni()],
+    plugins: [uni(), uvwt({ disabled: WeappTailwindcssDisabled })],
+    // 内联 postcss 注册 tailwindcss
+    css: {
+      postcss: {
+        plugins: postcssPlugins,
+      },
+    },
     define: {
       UNI_PLATFORM: JSON.stringify(process.env.UNI_PLATFORM),
     },
