@@ -202,7 +202,7 @@ class Utils {
   }
   /** @description 对象合并 */
   merge(...args: Object[]) {
-    // @ts-ignore
+    // @ts-expect-error
     const { caseless } = (this.isContextDefined(this) && this) || {}
     const result: AnyObj = {}
     const assignValue = (val: any, key: string) => {

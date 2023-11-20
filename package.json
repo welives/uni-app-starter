@@ -55,6 +55,12 @@
     "@dcloudio/uni-mp-xhs": "3.0.0-3090620231104002",
     "@dcloudio/uni-quickapp-webview": "3.0.0-3090620231104002",
     "axios": "^1.6.2",
+    "local-pkg": "^0.5.0",
+    "miniprogram-blob": "^2.0.0",
+    "miniprogram-file": "^2.0.0",
+    "miniprogram-formdata": "^2.0.0",
+    "miniprogram-text-decoder": "^2.0.0",
+    "miniprogram-text-encoder": "^2.0.0",
     "vue": "^3.3.8",
     "vue-i18n": "^9.7.0"
   },

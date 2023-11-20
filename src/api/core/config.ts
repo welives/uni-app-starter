@@ -23,9 +23,9 @@ interface ResponseStructure<T = any> {
 /**
  * 业务错误处理
  */
-function bizErrorHandler(info: AnyObj) {
-  if (info) {
-    const { errorMessage, errorCode, showType } = info
+function bizErrorHandler(error: any) {
+  if (error.info) {
+    const { errorMessage, errorCode, showType } = error.info
     switch (showType) {
       case ErrorShowType.SILENT:
         // do nothing
@@ -52,19 +52,23 @@ function bizErrorHandler(info: AnyObj) {
  * 请求错误处理
  */
 function responseStatusHandler(error: AxiosError) {
-  const { status } = error.response as AxiosResponse
-  switch (status) {
-    case 401:
-      // TODO
-      break
-    case 403:
-      // TODO
-      break
-    case 404:
-      // TODO
-      break
-    default:
-      console.error(`Response status:${status}`)
+  if (error.response) {
+    const { status } = error.response as AxiosResponse
+    switch (status) {
+      case 401:
+        // TODO
+        break
+      case 403:
+        // TODO
+        break
+      case 404:
+        // TODO
+        break
+      default:
+        console.error(`Response status:${status}`)
+    }
+  } else {
+    console.error(error.message)
   }
 }
 
@@ -85,7 +89,7 @@ const requestConfig: RequestConfig<ResponseStructure> = {
       if (opts?.skipErrorHandler) return
       // 自定义错误的处理
       if (error.name === 'BizError') {
-        bizErrorHandler(error.info)
+        bizErrorHandler(error)
       } else if (error.name === 'AxiosError') {
         // Axios 的错误
         // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
@@ -122,7 +126,13 @@ const requestConfig: RequestConfig<ResponseStructure> = {
       // 拦截响应数据，进行个性化处理
       const { config, data } = response
       !data && requestConfig.errorConfig?.errorThrower?.({ success: false, code: 'E0001', message: '缺少响应数据' })
-      if (!data.success) {
+      if (config.method === 'download') {
+        // TODO
+        return response
+      } else if (config.method === 'upload') {
+        // TODO
+        return response
+      } else if (!data.success) {
         // TODO
         requestConfig.errorConfig?.errorThrower?.(data)
       }

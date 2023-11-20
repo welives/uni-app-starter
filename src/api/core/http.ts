@@ -1,6 +1,9 @@
+// @ts-expect-error
+import utils from 'axios/unsafe/utils'
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError, InternalAxiosRequestConfig } from 'axios'
 import axios from 'axios'
 import requestConfig from './config'
+import uniappAdapter from '../adapter'
 
 type RequestError = AxiosError | Error
 
@@ -51,12 +54,12 @@ class AxiosRequest {
   private static _instance: AxiosRequest
   private readonly service: AxiosInstance
   private config: RequestConfig = {
-    // TODO 改成你的基础路径
-    baseURL: 'http://localhost',
+    baseURL: import.meta.env.BASE_URL,
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
     },
+    adapter: uniappAdapter(),
   }
   constructor(enforcer: any) {
     if (enforcer !== singletonEnforcer) {
@@ -89,7 +92,7 @@ class AxiosRequest {
    * 合并请求参数
    */
   private mergeConfig() {
-    this.config = Object.assign(this.config, requestConfig)
+    this.config = utils.merge(this.config, requestConfig)
   }
   /**
    * 获取需要移除的拦截器
@@ -162,7 +165,9 @@ class AxiosRequest {
    * @param opts 请求参数
    */
   upload: IUpload = (url: string, data, opts = {}) => {
+    // #ifdef H5
     opts.headers = opts.headers ?? { 'Content-Type': 'multipart/form-data' }
+    // #endif
     const { getResponse = false, requestInterceptors, responseInterceptors } = opts
     const { requestInterceptorsToEject, responseInterceptorsToEject } = this.getInterceptorsEject({
       requestInterceptors,
@@ -170,7 +175,7 @@ class AxiosRequest {
     })
     return new Promise((resolve, reject) => {
       this.service
-        .post(url, data, opts)
+        .upload(url, data, opts)
         .then((res) => {
           this.removeInterceptors({ requestInterceptorsToEject, responseInterceptorsToEject })
           resolve(getResponse ? res : res.data)
@@ -202,7 +207,7 @@ class AxiosRequest {
     })
     return new Promise((resolve, reject) => {
       this.service
-        .get(url, opts)
+        .download(url, opts)
         .then((res) => {
           this.removeInterceptors({ requestInterceptorsToEject, responseInterceptorsToEject })
           resolve(getResponse ? res : res.data)

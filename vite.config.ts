@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite'
 import uni from '@dcloudio/vite-plugin-uni'
 import { viteMockServe } from 'vite-plugin-mock'
 import { UnifiedViteWeappTailwindcssPlugin as uvwt } from 'weapp-tailwindcss/vite'
+import { isPackageExists } from 'local-pkg'
 import { WeappTailwindcssDisabled } from './platform'
 import { plugins as postcssPlugins } from './postcss.config'
 
@@ -12,8 +13,15 @@ export default defineConfig(({ mode }) => {
   return {
     server: {
       port: isNaN(PORT) ? undefined : PORT,
+      proxy: {
+        '/api': {
+          target: 'https://web-assets.dcloud.net.cn',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+      },
     },
-    plugins: [uni(), uvwt({ disabled: WeappTailwindcssDisabled }), viteMockServe()],
+    plugins: [uni(), uvwt({ disabled: WeappTailwindcssDisabled }), viteMockServe(), axiosAdapterPlugin()],
     // 内联 postcss 注册 tailwindcss
     css: {
       postcss: {
@@ -25,3 +33,32 @@ export default defineConfig(({ mode }) => {
     },
   }
 })
+
+function axiosAdapterPlugin() {
+  const hasFormDataPolyfill = isPackageExists('miniprogram-formdata')
+  const hasBlobPolyfill = isPackageExists('miniprogram-blob')
+  return {
+    name: 'vite-plugin-uni-axios',
+    transform(code, id) {
+      if (process.env.UNI_PLATFORM?.includes('mp')) {
+        if (id.includes('/form-data/lib/browser.js')) {
+          return {
+            code: code.replace('window', 'globalThis'),
+          }
+        }
+        if (id.includes('/axios/lib/platform/browser/classes/FormData.js')) {
+          return {
+            code: `${
+              hasFormDataPolyfill ? "import FormData from 'miniprogram-formdata';" : 'class FormData {};'
+            }export default FormData;`,
+          }
+        }
+        if (id.includes('/axios/lib/platform/browser/classes/Blob.js')) {
+          return {
+            code: `${hasBlobPolyfill ? "import Blob from 'miniprogram-blob';" : 'class Blob {};'}export default Blob;`,
+          }
+        }
+      }
+    },
+  }
+}

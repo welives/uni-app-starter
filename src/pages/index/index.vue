@@ -1,18 +1,32 @@
 <template>
   <view class="content">
-    <image class="logo" src="/static/logo.png" />
+    <image class="logo" src="/static/logo.png" @click="login" />
     <view class="text-area">
       <text class="title">{{ title }}</text>
     </view>
+    <button class="my-3" @click="go('/pages/download/index')">goDownload</button>
+    <button @click="go('/pages/upload/index')">goUpload</button>
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { request } from '@/api'
 const title = ref('Hello')
+const login = async () => {
+  request('https://mock.mengxuegu.com/mock/64f5ddc4e70b8004a69e9c4c/expo-starter/login', {
+    method: 'post',
+    data: { test: 123 },
+  }).then((res) => {
+    console.log(res)
+  })
+}
+const go = (url: string) => {
+  uni.navigateTo({ url })
+}
 </script>
 
-<style>
+<style scoped>
 .content {
   display: flex;
   flex-direction: column;
