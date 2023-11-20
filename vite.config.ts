@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import uni from '@dcloudio/vite-plugin-uni'
+import { viteMockServe } from 'vite-plugin-mock'
 import { UnifiedViteWeappTailwindcssPlugin as uvwt } from 'weapp-tailwindcss/vite'
 import { WeappTailwindcssDisabled } from './platform'
 import { plugins as postcssPlugins } from './postcss.config'
@@ -12,7 +13,7 @@ export default defineConfig(({ mode }) => {
     server: {
       port: isNaN(PORT) ? undefined : PORT,
     },
-    plugins: [uni(), uvwt({ disabled: WeappTailwindcssDisabled })],
+    plugins: [uni(), uvwt({ disabled: WeappTailwindcssDisabled }), viteMockServe()],
     // 内联 postcss 注册 tailwindcss
     css: {
       postcss: {
