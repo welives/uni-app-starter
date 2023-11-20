@@ -82,6 +82,9 @@ devDependencies:
   '@vue/tsconfig':
     specifier: ^0.1.3
     version: registry.npmmirror.com/@vue/tsconfig@0.1.3
+  cross-env:
+    specifier: ^7.0.3
+    version: registry.npmmirror.com/cross-env@7.0.3
   eslint:
     specifier: ^8.54.0
     version: registry.npmmirror.com/eslint@8.54.0
