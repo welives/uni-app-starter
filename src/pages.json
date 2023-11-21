@@ -8,18 +8,38 @@
       }
     },
     {
-      "path": "pages/download/index",
+      "path": "pages/home/index",
       "style": {
-        "navigationBarTitleText": "download"
+        "navigationBarTitleText": "Home"
       }
     },
     {
-      "path": "pages/upload/index",
+      "path": "pages/profile/index",
       "style": {
-        "navigationBarTitleText": "upload"
+        "navigationBarTitleText": "Profile"
       }
     }
   ],
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#4965f2",
+    "borderStyle": "black",
+    "backgroundColor": "#fefefe",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "iconPath": "static/tabbar/home.png",
+        "selectedIconPath": "static/tabbar/home-selected.png",
+        "text": "Home"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "iconPath": "static/tabbar/profile.png",
+        "selectedIconPath": "static/tabbar/profile-selected.png",
+        "text": "Profile"
+      }
+    ]
+  },
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
