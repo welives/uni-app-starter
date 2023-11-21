@@ -1,3 +1,4 @@
+import { StorageSceneKey, piniaStorage } from '../utils'
 interface Redirect {
   url: string
   tab?: boolean
@@ -15,5 +16,9 @@ export const useAuthStore = defineStore('auth', {
     clear() {
       this.redirect = null
     },
+  },
+  persist: {
+    key: StorageSceneKey.AUTH,
+    storage: piniaStorage,
   },
 })

@@ -10,7 +10,7 @@ export const useAuth = () => {
   const current = pages[pages.length - 1]
   const isTab = tabbar.includes(current.route ?? '')
   // @ts-expect-error
-  const fullPath = current.$page.fullPath
+  const fullPath = current.$page?.fullPath
   onShow(() => {
     if (!isLogged) {
       setRedirect({ tab: isTab, url: fullPath })

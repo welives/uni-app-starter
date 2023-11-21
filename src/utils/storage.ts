@@ -1,6 +1,7 @@
 import type { StorageLike } from 'pinia-plugin-persistedstate'
 enum StorageSceneKey {
   USER = 'storage-user',
+  AUTH = 'storage-auth',
 }
 
 function getItem<T = any>(key: string): T {

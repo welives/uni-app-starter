@@ -1,3 +1,4 @@
+import { stringify, parse } from 'qs'
 import { useUserStore } from '../stores'
 import { utils } from '../utils'
 
@@ -21,10 +22,9 @@ interface UniRouterOptions<S = any>
 }
 
 function searchParams2Obj(params: any) {
-  const searchParams = new URLSearchParams(params)
+  const searchParams = parse(params)
   const obj: AnyObj = {}
-  // @ts-expect-error
-  for (const [key, value] of searchParams.entries()) {
+  for (const [key, value] of Object.entries(searchParams)) {
     obj[key] = value
   }
   return obj
@@ -50,7 +50,7 @@ function authCheck(urlKey: string, type: RouterType, options: UniRouterOptions) 
  */
 function navigate(type: RouterType, options: UniRouterOptions) {
   const { data, ...rest } = options
-  if (!Object.hasOwnProperty.call(uni, type)) return
+  if (!['navigateTo', 'redirectTo', 'switchTab', 'reLaunch'].includes(type)) return
   if (!rest.url.startsWith('/')) {
     rest.url = `/${rest.url}`
   }
@@ -93,13 +93,14 @@ class Router {
           url = urlKey
         } else {
           let obj: AnyObj = {}
-          if (data && typeof data === 'string') {
+          if (data && typeof data === 'string' && data.trim()) {
             data = searchParams2Obj(data)
           }
-          if (queryStr) {
+          if (queryStr && queryStr.trim()) {
             obj = searchParams2Obj(queryStr)
           }
-          url = urlKey + '?' + new URLSearchParams(utils.merge(data, obj)).toString()
+          const str = stringify(utils.merge(data, obj))
+          url = str ? `${urlKey}?${str}` : urlKey
         }
         authCheck(urlKey, type, { ...rest, url, events })
       }

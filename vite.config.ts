@@ -15,13 +15,6 @@ export default defineConfig(({ mode }) => {
   return {
     server: {
       port: isNaN(PORT) ? undefined : PORT,
-      proxy: {
-        '/api': {
-          target: 'https://web-assets.dcloud.net.cn',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
-        },
-      },
     },
     resolve: {
       alias: {

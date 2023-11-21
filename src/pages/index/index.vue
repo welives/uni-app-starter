@@ -12,7 +12,9 @@ import router from '@/router'
 const setToken = useUserStore().setToken
 const auth = useAuthStore()
 const login = async () => {
-  const res = await request('/api/login', { method: 'post' })
+  const res = await request('https://mock.mengxuegu.com/mock/64f5ddc4e70b8004a69e9c4c/expo-starter/login', {
+    method: 'post',
+  })
   setToken(res.data)
   if (auth.redirect?.url) {
     const success = () => {
