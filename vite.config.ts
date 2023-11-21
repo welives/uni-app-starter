@@ -28,10 +28,8 @@ export default defineConfig(({ mode }) => {
         imports: ['vue', 'uni-app', 'pinia'],
         eslintrc: {
           enabled: true,
-          filepath: './.eslintrc-auto-import.json',
-          globalsPropValue: true,
         },
-        dts: './src/auto-imports.d.ts',
+        dts: true,
       }),
       uvwt({ disabled: WeappTailwindcssDisabled }),
       viteMockServe(),

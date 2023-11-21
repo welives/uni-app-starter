@@ -75,7 +75,7 @@ class Router {
    * 路由中间件,做跳转前的代理
    */
   private middleware(type: RouterType, options: UniRouterOptions) {
-    let { url = '', data = '', events, ...rest } = options
+    let { url = '', data = {}, events, ...rest } = options
     let [urlKey, queryStr] = url.split('?')
     // 单独存一份url,待会要用
     urlKey = urlKey
@@ -92,14 +92,14 @@ class Router {
         if (type === 'switchTab') {
           url = urlKey
         } else {
-          let obj: AnyObj = {}
           if (data && typeof data === 'string' && data.trim()) {
             data = searchParams2Obj(data)
           }
+          let obj: AnyObj = {}
           if (queryStr && queryStr.trim()) {
             obj = searchParams2Obj(queryStr)
           }
-          const str = stringify(utils.merge(data, obj))
+          const str = stringify(utils.merge(data as object, obj))
           url = str ? `${urlKey}?${str}` : urlKey
         }
         authCheck(urlKey, type, { ...rest, url, events })
@@ -136,8 +136,8 @@ class Router {
   /**
    * 关闭当前页面，返回上一页面或多级页面
    */
-  navigateBack(options: UniRouterOptions) {
-    this.middleware('navigateBack', options)
+  navigateBack(options: Omit<UniRouterOptions, 'url'>) {
+    this.middleware('navigateBack', { url: '', ...options })
   }
 }
 // 需要权限的路由,注意首尾不能带有斜杠
