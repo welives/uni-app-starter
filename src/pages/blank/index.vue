@@ -1,6 +1,5 @@
 <template></template>
 <script setup lang="ts">
-import { onLoad } from '@dcloudio/uni-app'
 import { useUserStore } from '@/stores'
 import router from '@/router'
 const isLogged = useUserStore().isLogged

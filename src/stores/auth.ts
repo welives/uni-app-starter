@@ -1,5 +1,3 @@
-import { defineStore } from 'pinia'
-
 interface Redirect {
   url: string
   tab?: boolean

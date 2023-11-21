@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
+import AutoImport from 'unplugin-auto-import/vite'
 import uni from '@dcloudio/vite-plugin-uni'
 import { viteMockServe } from 'vite-plugin-mock'
 import { UnifiedViteWeappTailwindcssPlugin as uvwt } from 'weapp-tailwindcss/vite'
@@ -27,7 +28,22 @@ export default defineConfig(({ mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
-    plugins: [uni(), uvwt({ disabled: WeappTailwindcssDisabled }), viteMockServe(), axiosAdapterPlugin()],
+    plugins: [
+      uni(),
+      AutoImport({
+        include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/, /\.md$/],
+        imports: ['vue', 'uni-app', 'pinia'],
+        eslintrc: {
+          enabled: true,
+          filepath: './.eslintrc-auto-import.json',
+          globalsPropValue: true,
+        },
+        dts: './src/auto-imports.d.ts',
+      }),
+      uvwt({ disabled: WeappTailwindcssDisabled }),
+      viteMockServe(),
+      axiosAdapterPlugin(),
+    ],
     // 内联 postcss 注册 tailwindcss
     css: {
       postcss: {

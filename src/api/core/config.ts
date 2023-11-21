@@ -1,8 +1,6 @@
 import type { AxiosResponse, AxiosError } from 'axios'
 import type { RequestConfig } from './http'
-interface AnyObj {
-  [key: string]: any
-}
+
 // 错误处理方案：错误类型
 enum ErrorShowType {
   SILENT = 0,

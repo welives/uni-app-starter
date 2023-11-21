@@ -1,5 +1,5 @@
-import { useUserStore } from '@/stores'
-import { utils } from '@/utils'
+import { useUserStore } from '../stores'
+import { utils } from '../utils'
 
 interface AnyObj {
   [key: string]: any
