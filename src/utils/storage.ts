@@ -1,5 +1,5 @@
+import type { StorageLike } from 'pinia-plugin-persistedstate'
 enum StorageSceneKey {
-  DEVICE = 'storage-device-uuid',
   USER = 'storage-user',
 }
 
@@ -15,3 +15,14 @@ function removeItem(key: string) {
 }
 
 export { getItem, setItem, removeItem, StorageSceneKey }
+
+/** @description 用来覆盖pinia持久化存储的方法 */
+export const piniaStorage: StorageLike = {
+  getItem: (key) => {
+    const value = uni.getStorageSync(key)
+    return value ?? null
+  },
+  setItem: (key, value) => {
+    uni.setStorageSync(key, value)
+  },
+}

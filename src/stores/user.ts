@@ -1,17 +1,6 @@
-import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { StorageLike } from 'pinia-plugin-persistedstate'
-import { StorageSceneKey } from '../utils'
-
-const userStorage: StorageLike = {
-  getItem: (key) => {
-    const value = uni.getStorageSync(key)
-    return value ?? null
-  },
-  setItem: (key, value) => {
-    uni.setStorageSync(key, value)
-  },
-}
+import { defineStore } from 'pinia'
+import { StorageSceneKey, piniaStorage } from '../utils'
 
 export const useUserStore = defineStore(
   'user',
@@ -33,7 +22,7 @@ export const useUserStore = defineStore(
       //! 注意这里的key是当前这个Pinia模块进行缓存时的唯一key, 每个需要缓存的Pinia模块都必须分配一个唯一key
       key: StorageSceneKey.USER,
       // pinia-plugin-persistedstate 插件的默认持久化方案只支持web端，在Taro里使用需要自定义进行覆盖
-      storage: userStorage,
+      storage: piniaStorage,
     },
   }
 )
