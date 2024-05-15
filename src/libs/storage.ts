@@ -1,4 +1,5 @@
 import type { StorageLike } from 'pinia-plugin-persistedstate'
+
 enum StorageSceneKey {
   USER = 'storage-user',
   AUTH = 'storage-auth',
@@ -27,5 +28,3 @@ const piniaStorage: StorageLike = {
 }
 
 export { getItem, setItem, removeItem, StorageSceneKey, piniaStorage }
-
-

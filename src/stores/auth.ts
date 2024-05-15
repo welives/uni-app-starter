@@ -1,4 +1,5 @@
-import { StorageSceneKey, piniaStorage } from '../lib'
+import { StorageSceneKey, piniaStorage } from '../libs'
+
 interface Redirect {
   url: string
   tab?: boolean

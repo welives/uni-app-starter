@@ -18,11 +18,10 @@ type UniProgressResult = UniApp.OnProgressDownloadResult | UniApp.OnProgressUpda
  * @description 返回可选值存在的配置
  */
 function mergeKeys(keys: string[], configObj: AnyObj) {
-  let config: AnyObj = {}
+  const config: AnyObj = {}
   keys.forEach((key) => {
-    if (typeof key !== 'undefined') {
+    if (typeof key !== 'undefined')
       config[key] = configObj[key]
-    }
   })
   return config
 }
@@ -68,14 +67,13 @@ export function resolveUniAppRequestOptions(config: AxiosRequestConfig): UniNetw
     if (parsed !== null && typeof parsed === 'object') {
       uploadData = mergeKeys(optionalKeys, parsed)
       for (const [key, value] of Object.entries(parsed)) {
-        if (!optionalKeys.includes(key)) {
+        if (!optionalKeys.includes(key))
           formData[key] = value
-        }
       }
-      if (Object.keys(uploadData).filter((k) => uploadData[k]).length === 0) {
+      if (Object.keys(uploadData).filter(k => uploadData[k]).length === 0)
         throw new Error('上传对象不能为空')
-      }
-      uploadData['formData'] = formData
+
+      uploadData.formData = formData
     }
   }
 

@@ -13,7 +13,8 @@ const upload: AdapterMethod = (config) => {
   const onCancel = new Canceled(config)
   return new Promise((resolve, reject) => {
     const success = (result: UniApp.UploadFileSuccessCallbackResult) => {
-      if (!task) return
+      if (!task)
+        return
       const response = {
         config: responseConfig,
         headers: {},
@@ -29,8 +30,10 @@ const upload: AdapterMethod = (config) => {
       if (errMsg) {
         const isTimeoutError = errMsg === 'uploadFile:fail timeout'
         const isNetworkError = errMsg === 'uploadFile:fail file error'
-        if (isTimeoutError) reject(new AxiosError(errMsg, AxiosError.ETIMEDOUT, responseConfig, task))
-        if (isNetworkError) reject(new AxiosError(errMsg, AxiosError.ERR_NETWORK, responseConfig, task))
+        if (isTimeoutError)
+          reject(new AxiosError(errMsg, AxiosError.ETIMEDOUT, responseConfig, task))
+        if (isNetworkError)
+          reject(new AxiosError(errMsg, AxiosError.ERR_NETWORK, responseConfig, task))
       }
       reject(new AxiosError(error.errMsg, undefined, responseConfig, task))
     }
@@ -45,7 +48,8 @@ const upload: AdapterMethod = (config) => {
     })
     if (typeof config.onUploadProgress === 'function')
       task.onProgressUpdate(progressEventReducer(config.onUploadProgress, false))
-    if (typeof config.onHeadersReceived === 'function') task.onHeadersReceived(config.onHeadersReceived)
+    if (typeof config.onHeadersReceived === 'function')
+      task.onHeadersReceived(config.onHeadersReceived)
     onCancel.subscribe(task, reject)
   })
 }

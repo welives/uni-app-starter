@@ -1,14 +1,14 @@
 {
   "extends": "@vue/tsconfig/tsconfig.json",
   "compilerOptions": {
-    "sourceMap": true,
-    "suppressImplicitAnyIndexErrors": true,
+    "lib": ["esnext", "dom"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "lib": ["esnext", "dom"],
-    "types": ["@dcloudio/types"]
+    "types": ["@dcloudio/types"],
+    "sourceMap": true,
+    "suppressImplicitAnyIndexErrors": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "auto-imports.d.ts"]
 }

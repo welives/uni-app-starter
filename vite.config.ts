@@ -1,4 +1,4 @@
-import { fileURLToPath, URL } from 'node:url'
+import { URL, fileURLToPath } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import uni from '@dcloudio/vite-plugin-uni'
@@ -11,7 +11,7 @@ import { plugins as postcssPlugins } from './postcss.config'
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd())
-  const PORT = parseInt(env.VITE_APP_PORT)
+  const PORT = Number.parseInt(env.VITE_APP_PORT)
   return {
     server: {
       port: isNaN(PORT) ? undefined : PORT,
@@ -61,14 +61,13 @@ function axiosAdapterPlugin() {
         }
         if (id.includes('/axios/lib/platform/browser/classes/FormData.js')) {
           return {
-            code: `${
-              hasFormDataPolyfill ? "import FormData from 'miniprogram-formdata';" : 'class FormData {};'
-            }export default FormData;`,
+            code: `${hasFormDataPolyfill ? 'import FormData from \'miniprogram-formdata\';' : 'class FormData {};'
+              }export default FormData;`,
           }
         }
         if (id.includes('/axios/lib/platform/browser/classes/Blob.js')) {
           return {
-            code: `${hasBlobPolyfill ? "import Blob from 'miniprogram-blob';" : 'class Blob {};'}export default Blob;`,
+            code: `${hasBlobPolyfill ? 'import Blob from \'miniprogram-blob\';' : 'class Blob {};'}export default Blob;`
           }
         }
       }

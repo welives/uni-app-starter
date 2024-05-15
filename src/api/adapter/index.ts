@@ -1,14 +1,15 @@
-import type { AxiosRequestConfig, AxiosAdapter, AxiosResponse } from 'axios'
+import type { AxiosAdapter, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { Axios } from 'axios'
 import { getMethod } from './methods'
+
 export { AxiosRequestConfig, AxiosResponse }
 /**
  * @description axios适配器的构造器
  */
 export function createUniAppAxiosAdapter(): AxiosAdapter {
-  if (!uni) {
+  if (!uni)
     throw new Error('这个适配器只能在uni-app环境中使用')
-  }
+
   // 通过原型扩展此插件特有的方法
   Axios.prototype.upload = function (url, data, config) {
     return this.request({ ...config, url, data, method: 'upload' })

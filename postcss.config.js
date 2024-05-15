@@ -1,4 +1,5 @@
 const { WeappTailwindcssDisabled } = require('./platform')
+
 module.exports = {
   plugins: [
     require('tailwindcss')(),

@@ -1,7 +1,9 @@
 {
   "name": "uni-app-starter",
-  "description": "开箱即用的基于 uni-app + Vue3 + Pinia + TailwindCSS + TypeScript 的模板",
   "version": "1.0.0",
+  "description": "开箱即用的基于 uni-app + Vue3 + Pinia + TailwindCSS + TypeScript 的模板",
+  "author": "welives",
+  "license": "MIT",
   "keywords": [
     "uni-app",
     "Vue3",
@@ -11,8 +13,6 @@
     "ESLint",
     "Prettier"
   ],
-  "author": "welives",
-  "license": "MIT",
   "scripts": {
     "dev:app": "uni -p app",
     "dev:app-android": "uni -p app-android",

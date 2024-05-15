@@ -3,9 +3,9 @@ import type { AxiosPromise, AxiosRequestConfig } from 'axios'
 declare module 'axios' {
   interface AxiosRequestConfig
     extends Omit<UniApp.RequestOptions, 'success' | 'fail' | 'complete' | 'header'>,
-      Omit<UniApp.UploadFileOption, 'success' | 'fail' | 'complete' | 'header' | 'formData'>,
-      Omit<UniApp.DownloadFileOption, 'success' | 'fail' | 'complete' | 'header'>,
-      Partial<Pick<UniApp.RequestTask, 'onHeadersReceived'>> {}
+    Omit<UniApp.UploadFileOption, 'success' | 'fail' | 'complete' | 'header' | 'formData'>,
+    Omit<UniApp.DownloadFileOption, 'success' | 'fail' | 'complete' | 'header'>,
+    Partial<Pick<UniApp.RequestTask, 'onHeadersReceived'>> {}
   interface AxiosResponse {
     cookies?: string[]
   }

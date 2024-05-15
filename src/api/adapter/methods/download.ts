@@ -13,7 +13,8 @@ const download: AdapterMethod = (config) => {
   const onCancel = new Canceled(config)
   return new Promise((resolve, reject) => {
     const success = (result: UniApp.DownloadSuccessData) => {
-      if (!task) return
+      if (!task)
+        return
       const response = {
         config: responseConfig,
         data: result.tempFilePath,
@@ -28,8 +29,10 @@ const download: AdapterMethod = (config) => {
       if (errMsg) {
         const isTimeoutError = errMsg === 'downloadFile:fail timeout'
         const isNetworkError = errMsg === 'downloadFile:fail'
-        if (isTimeoutError) reject(new AxiosError(errMsg, AxiosError.ETIMEDOUT, responseConfig, task))
-        if (isNetworkError) reject(new AxiosError(errMsg, AxiosError.ERR_NETWORK, responseConfig, task))
+        if (isTimeoutError)
+          reject(new AxiosError(errMsg, AxiosError.ETIMEDOUT, responseConfig, task))
+        if (isNetworkError)
+          reject(new AxiosError(errMsg, AxiosError.ERR_NETWORK, responseConfig, task))
       }
       reject(new AxiosError(error.errMsg, undefined, responseConfig, task))
     }
@@ -44,7 +47,8 @@ const download: AdapterMethod = (config) => {
     })
     if (typeof config.onDownloadProgress === 'function')
       task.onProgressUpdate(progressEventReducer(config.onDownloadProgress, true))
-    if (typeof config.onHeadersReceived === 'function') task.onHeadersReceived(config.onHeadersReceived)
+    if (typeof config.onHeadersReceived === 'function')
+      task.onHeadersReceived(config.onHeadersReceived)
     onCancel.subscribe(task, reject)
   })
 }

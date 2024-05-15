@@ -13,7 +13,8 @@ const request: AdapterMethod = (config) => {
   const onCancel = new Canceled(config)
   return new Promise((resolve, reject) => {
     const success = (result: UniApp.RequestSuccessCallbackResult) => {
-      if (!task) return
+      if (!task)
+        return
       const headers = new AxiosHeaders(result.header)
       const response = {
         config: responseConfig,
@@ -31,8 +32,10 @@ const request: AdapterMethod = (config) => {
       if (errMsg) {
         const isTimeoutError = errMsg === 'request:fail timeout'
         const isNetworkError = errMsg === 'request:fail'
-        if (isTimeoutError) reject(new AxiosError(errMsg, AxiosError.ETIMEDOUT, responseConfig, task))
-        if (isNetworkError) reject(new AxiosError(errMsg, AxiosError.ERR_NETWORK, responseConfig, task))
+        if (isTimeoutError)
+          reject(new AxiosError(errMsg, AxiosError.ETIMEDOUT, responseConfig, task))
+        if (isNetworkError)
+          reject(new AxiosError(errMsg, AxiosError.ERR_NETWORK, responseConfig, task))
       }
       reject(new AxiosError(error.errMsg, undefined, responseConfig, task))
     }
@@ -45,7 +48,8 @@ const request: AdapterMethod = (config) => {
         task = null
       },
     })
-    if (typeof config.onHeadersReceived === 'function') task.onHeadersReceived(config.onHeadersReceived)
+    if (typeof config.onHeadersReceived === 'function')
+      task.onHeadersReceived(config.onHeadersReceived)
     onCancel.subscribe(task, reject)
   })
 }

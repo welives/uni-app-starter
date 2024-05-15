@@ -1,6 +1,6 @@
-import { stringify, parse } from 'qs'
+import { parse, stringify } from 'qs'
 import { useUserStore } from '../stores'
-import { utils } from '../lib'
+import { utils } from '../libs'
 
 interface AnyObj {
   [key: string]: any
@@ -24,9 +24,9 @@ interface UniRouterOptions<S = any>
 function searchParams2Obj(params: any) {
   const searchParams = parse(params)
   const obj: AnyObj = {}
-  for (const [key, value] of Object.entries(searchParams)) {
+  for (const [key, value] of Object.entries(searchParams))
     obj[key] = value
-  }
+
   return obj
 }
 
@@ -41,7 +41,8 @@ function authCheck(urlKey: string, type: RouterType, options: UniRouterOptions) 
       return
     }
     navigate(type, options)
-  } else {
+  }
+  else {
     navigate(type, options)
   }
 }
@@ -50,10 +51,11 @@ function authCheck(urlKey: string, type: RouterType, options: UniRouterOptions) 
  */
 function navigate(type: RouterType, options: UniRouterOptions) {
   const { data, ...rest } = options
-  if (!['navigateTo', 'redirectTo', 'switchTab', 'reLaunch'].includes(type)) return
-  if (!rest.url.startsWith('/')) {
+  if (!['navigateTo', 'redirectTo', 'switchTab', 'reLaunch'].includes(type))
+    return
+  if (!rest.url.startsWith('/'))
     rest.url = `/${rest.url}`
-  }
+
   // @ts-expect-error
   uni[type](rest)
 }
@@ -62,15 +64,16 @@ const singletonEnforcer = Symbol('Router')
 class Router {
   private static _instance: Router
   constructor(enforcer: any) {
-    if (enforcer !== singletonEnforcer) {
+    if (enforcer !== singletonEnforcer)
       throw new Error('Cannot initialize single instance')
-    }
   }
+
   static get instance() {
     // 如果已经存在实例则直接返回, 否则实例化后返回
     this._instance || (this._instance = new Router(singletonEnforcer))
     return this._instance
   }
+
   /**
    * 路由中间件,做跳转前的代理
    */
@@ -80,59 +83,67 @@ class Router {
     // 单独存一份url,待会要用
     urlKey = urlKey
       .split('/')
-      .filter((e) => e !== '')
+      .filter(e => e !== '')
       .join('/')
     try {
       if (type === 'navigateBack') {
         uni.navigateBack(rest)
-      } else {
-        if (!urlKey.trim() || !routes.includes(urlKey)) {
-          throw Error('无效的路由')
-        }
+      }
+      else {
+        if (!urlKey.trim() || !routes.includes(urlKey))
+          throw new Error('无效的路由')
+
         if (type === 'switchTab') {
           url = urlKey
-        } else {
-          if (data && typeof data === 'string' && data.trim()) {
+        }
+        else {
+          if (data && typeof data === 'string' && data.trim())
             data = searchParams2Obj(data)
-          }
+
           let obj: AnyObj = {}
-          if (queryStr && queryStr.trim()) {
+          if (queryStr && queryStr.trim())
             obj = searchParams2Obj(queryStr)
-          }
+
           const str = stringify(utils.merge(data as object, obj))
           url = str ? `${urlKey}?${str}` : urlKey
         }
         authCheck(urlKey, type, { ...rest, url, events })
       }
-    } catch (error: any) {
+    }
+    catch (error: any) {
       // TODO
       console.error(error.message)
     }
   }
+
   /**
    * 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
    */
   switchTab(options: UniRouterOptions) {
     this.middleware('switchTab', options)
   }
+
   /**
    * 关闭所有页面，打开到应用内的某个页面
    */
   reLaunch(options: UniRouterOptions) {
     this.middleware('reLaunch', options)
   }
+
   /**
    * 关闭当前页面，跳转到应用内的某个页面。但是不允许跳转到 tabbar 页面
    */
   redirectTo(options: UniRouterOptions) {
     this.middleware('redirectTo', options)
   }
+
   /**
    * 保留当前页面，跳转到应用内的某个页面。但是不能跳到 tabbar 页面
    */
   navigateTo(options: UniRouterOptions<UniApp.NavigateToSuccessOptions>) {
     this.middleware('navigateTo', options)
   }
+
   /**
    * 关闭当前页面，返回上一页面或多级页面
    */

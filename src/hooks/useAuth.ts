@@ -1,9 +1,10 @@
 import { onShow } from '@dcloudio/uni-app'
-import { useUserStore, useAuthStore } from '../stores'
+import { useAuthStore, useUserStore } from '../stores'
 import router from '../router'
+
 const tabbar = ['pages/home/index', 'pages/profile/index']
 
-export const useAuth = () => {
+export function useAuth() {
   const isLogged = useUserStore().isLogged
   const setRedirect = useAuthStore().setRedirect
   const pages = getCurrentPages()
