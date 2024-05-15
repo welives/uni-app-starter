@@ -15,10 +15,8 @@ function removeItem(key: string) {
   uni.removeStorageSync(key)
 }
 
-export { getItem, setItem, removeItem, StorageSceneKey }
-
 /** @description 用来覆盖pinia持久化存储的方法 */
-export const piniaStorage: StorageLike = {
+const piniaStorage: StorageLike = {
   getItem: (key) => {
     const value = uni.getStorageSync(key)
     return value ?? null
@@ -27,3 +25,7 @@ export const piniaStorage: StorageLike = {
     uni.setStorageSync(key, value)
   },
 }
+
+export { getItem, setItem, removeItem, StorageSceneKey, piniaStorage }
+
+

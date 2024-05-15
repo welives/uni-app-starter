@@ -1,4 +1,4 @@
-import { StorageSceneKey, piniaStorage } from '../utils'
+import { StorageSceneKey, piniaStorage } from '../lib'
 
 export const useUserStore = defineStore(
   'user',

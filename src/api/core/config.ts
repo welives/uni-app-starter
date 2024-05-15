@@ -1,6 +1,6 @@
 import type { AxiosResponse, AxiosError } from 'axios'
 import type { RequestConfig } from './http'
-import { getToken } from '../../utils/utils'
+import { getToken } from '../../lib/utils'
 
 // 错误处理方案：错误类型
 enum ErrorShowType {

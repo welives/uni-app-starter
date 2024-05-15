@@ -1,6 +1,6 @@
 import { stringify, parse } from 'qs'
 import { useUserStore } from '../stores'
-import { utils } from '../utils'
+import { utils } from '../lib'
 
 interface AnyObj {
   [key: string]: any
@@ -10,11 +10,11 @@ type UniAnimationType = Pick<UniApp.NavigateToOptions, 'animationType'> &
   Pick<UniApp.NavigateBackOptions, 'animationType'>
 interface UniRouterOptions<S = any>
   extends Omit<UniApp.NavigateToOptions, 'success' | 'fail' | 'complete' | 'animationType'>,
-    Omit<UniApp.NavigateBackOptions, 'success' | 'fail' | 'complete' | 'animationType'>,
-    Omit<UniApp.RedirectToOptions, 'success' | 'fail' | 'complete'>,
-    Omit<UniApp.ReLaunchOptions, 'success' | 'fail' | 'complete'>,
-    Omit<UniApp.SwitchTabOptions, 'success' | 'fail' | 'complete'>,
-    UniAnimationType {
+  Omit<UniApp.NavigateBackOptions, 'success' | 'fail' | 'complete' | 'animationType'>,
+  Omit<UniApp.RedirectToOptions, 'success' | 'fail' | 'complete'>,
+  Omit<UniApp.ReLaunchOptions, 'success' | 'fail' | 'complete'>,
+  Omit<UniApp.SwitchTabOptions, 'success' | 'fail' | 'complete'>,
+  UniAnimationType {
   data?: string | AnyObj
   success?: (result: S) => void
   fail?: (result: any) => void
