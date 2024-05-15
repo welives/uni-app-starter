@@ -1,5 +1,6 @@
 import type { AxiosResponse, AxiosError } from 'axios'
 import type { RequestConfig } from './http'
+import { getToken } from '../../utils/utils'
 
 // 错误处理方案：错误类型
 enum ErrorShowType {
@@ -110,7 +111,10 @@ const requestConfig: RequestConfig<ResponseStructure> = {
     [
       (config) => {
         // 拦截请求配置，进行个性化处理。
-        // TODO
+        const accessToken = getToken()
+        if (accessToken) {
+          config.headers['Authorization'] = `Bearer ${accessToken}`
+        }
         return { ...config }
       },
       (error: AxiosError) => {

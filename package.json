@@ -1,12 +1,11 @@
 {
   "name": "uni-app-starter",
-  "description": "开箱即用的基于 uni-app + Vue3 + Pinia + Vant-Weapp + TailwindCSS + TypeScript 的模板",
+  "description": "开箱即用的基于 uni-app + Vue3 + Pinia + TailwindCSS + TypeScript 的模板",
   "version": "1.0.0",
   "keywords": [
     "uni-app",
     "Vue3",
     "Pinia",
-    "Vant-Weapp",
     "TailwindCSS",
     "TypeScript",
     "ESLint",
@@ -50,7 +49,9 @@
     "build:quickapp-webview-huawei": "uni build -p quickapp-webview-huawei",
     "build:quickapp-webview-union": "uni build -p quickapp-webview-union",
     "type-check": "vue-tsc --noEmit",
-    "postinstall": "weapp-tw patch"
+    "postinstall": "weapp-tw patch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@dcloudio/uni-app": "3.0.0-3090620231104002",
@@ -82,6 +83,7 @@
     "vue-i18n": "^9.7.0"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^2.18.0",
     "@dcloudio/types": "^3.4.3",
     "@dcloudio/uni-automator": "3.0.0-3090620231104002",
     "@dcloudio/uni-cli-shared": "3.0.0-3090620231104002",
@@ -89,14 +91,12 @@
     "@dcloudio/vite-plugin-uni": "3.0.0-3090620231104002",
     "@types/mockjs": "^1.0.10",
     "@types/qs": "^6.9.10",
-    "@vue/eslint-config-prettier": "^8.0.0",
-    "@vue/eslint-config-typescript": "^12.0.0",
     "@vue/runtime-core": "^3.3.8",
     "@vue/tsconfig": "^0.1.3",
     "autoprefixer": "^10.4.16",
     "cross-env": "^7.0.3",
     "eslint": "^8.54.0",
-    "eslint-plugin-vue": "^9.18.1",
+    "eslint-plugin-format": "^0.1.1",
     "mockjs": "^1.1.0",
     "postcss": "^8.4.31",
     "postcss-rem-to-responsive-pixel": "^6.0.0",

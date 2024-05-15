@@ -26,7 +26,6 @@ function findKey(obj: object, key: string) {
 }
 const _global = (() => {
   if (typeof globalThis !== 'undefined') return globalThis
-  // @ts-expect-error
   return typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : global
 })()
 
@@ -161,8 +160,8 @@ class Utils {
   /** @description 判断对象是否有某属性 */
   hasOwnProperty = (
     ({ hasOwnProperty }) =>
-    (obj: object, prop: string) =>
-      hasOwnProperty.call(obj, prop)
+      (obj: object, prop: string) =>
+        hasOwnProperty.call(obj, prop)
   )(Object.prototype)
   /** @description 把baseURL和relativeURL组合起来 */
   combineURLs(baseURL: string, relativeURL: string) {
@@ -262,3 +261,10 @@ class Utils {
   }
 }
 export default Utils.instance
+
+export function setToken(key: 'ACCESS_TOKEN' | 'REFRESH_TOKEN' = 'ACCESS_TOKEN', value: string) {
+  uni.setStorageSync(key, value)
+}
+export function getToken(key: 'ACCESS_TOKEN' | 'REFRESH_TOKEN' = 'ACCESS_TOKEN') {
+  return uni.getStorageSync(key)
+}

@@ -13,6 +13,7 @@ wxcomponents
 dist
 
 # local env files
+.env
 .env*.local
 *.rest
 *.http
@@ -25,7 +26,6 @@ dist
 *.sln
 *.sw?
 .project
-.vscode
 .classpath
 .c9/
 *.launch
